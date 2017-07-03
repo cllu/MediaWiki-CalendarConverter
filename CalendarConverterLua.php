@@ -1,18 +1,15 @@
 <?php
 
-class CalendarConverterLua extends Scribunto_LuaLibraryBase
-{
-    public function register()
-    {
+class CalendarConverterLua extends Scribunto_LuaLibraryBase {
+    public function register() {
         $lib = array(
             "lunar2solar" => array($this, "lunar2solar"),
             "solar2lunar" => array($this, "solar2lunar"),
         );
-        $this->getEngine()->registerInterface( __DIR__ . "/CalendarConverter.lua", $lib);
+        $this->getEngine()->registerInterface(__DIR__ . "/CalendarConverter.lua", $lib);
     }
 
-    public function lunar2solar($year, $month, $day, $isleap=false)
-    {
+    public function lunar2solar($year, $month, $day, $isleap = false) {
         $lunar = new Lunar();
         $lunar->isleap = $isleap;
         $lunar->lunarYear = $year;
@@ -22,8 +19,7 @@ class CalendarConverterLua extends Scribunto_LuaLibraryBase
         return array($solar->solarYear, $solar->solarMonth, $solar->solarDay);
     }
 
-    public function solar2lunar($year, $month, $day)
-    {
+    public function solar2lunar($year, $month, $day) {
         $solar = new Solar();
         $solar->solarYear = $year;
         $solar->solarMonth = $month;
@@ -32,5 +28,3 @@ class CalendarConverterLua extends Scribunto_LuaLibraryBase
         return array($lunar->lunarYear, $lunar->lunarMonth, $lunar->lunarDay, $lunar->isleap);
     }
 }
-
-?>

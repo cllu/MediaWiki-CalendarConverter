@@ -1,22 +1,19 @@
 <?php
 
-class Lunar
-{
+class Lunar {
     public $isleap;
     public $lunarDay;
     public $lunarMonth;
     public $lunarYear;
 }
 
-class Solar
-{
+class Solar {
     public $solarDay;
     public $solarMonth;
     public $solarYear;
 }
 
-class LunarSolarConverter
-{
+class LunarSolarConverter {
     /*
      * |----4位闰月|-------------13位1为30天，0为29天|
      * */
@@ -66,21 +63,18 @@ class LunarSolarConverter
             0x107444, 0x107638, 0x10784c, 0x107a3f, 0x107c53, 0x107e48
         );
 
-    public static function GetBitInt($data, $length, $shift)
-    {
+    public static function GetBitInt($data, $length, $shift) {
         return ($data & (((1 << $length) - 1) << $shift)) >> $shift;
     }
 
     //WARNING: Dates before Oct. 1582 are inaccurate
-    public static function SolarToInt($y, $m, $d)
-    {
+    public static function SolarToInt($y, $m, $d) {
         $m = ($m + 9) % 12;
         $y = intval($y) - intval($m / 10);
         return intval(365 * $y + intval($y / 4) - intval($y / 100) + intval($y / 400) + intval(($m * 306 + 5) / 10) + ($d - 1));
     }
 
-    public static function SolarFromInt($g)
-    {
+    public static function SolarFromInt($g) {
         $y = intval((10000 * intval($g) + 14780) / 3652425);
         $ddd = intval($g - (365 * $y + intval($y / 4) - intval($y / 100) + intval($y / 400)));
         if ($ddd < 0) {
@@ -98,8 +92,7 @@ class LunarSolarConverter
         return $solar;
     }
 
-    public static function LunarToSolar($lunar)
-    {
+    public static function LunarToSolar($lunar) {
         $days = LunarSolarConverter::$lunar_month_days[$lunar->lunarYear - LunarSolarConverter::$lunar_month_days[0]];
         $leap = LunarSolarConverter::GetBitInt($days, 4, 13);
         $offset = 0;
@@ -125,8 +118,7 @@ class LunarSolarConverter
         return LunarSolarConverter::SolarFromInt(LunarSolarConverter::SolarToInt($y, $m, $d) + $offset - 1);
     }
 
-    public static function SolarToLunar($solar)
-    {
+    public static function SolarToLunar($solar) {
         $lunar = new Lunar();
         $index = $solar->solarYear - LunarSolarConverter::$solar_1_1[0];
         $data = ($solar->solarYear << 9) | ($solar->solarMonth << 5) | ($solar->solarDay);
@@ -170,7 +162,3 @@ class LunarSolarConverter
         return $lunar;
     }
 }
-
-
-
-

@@ -1,0 +1,28 @@
+{
+  "name": "CalendarConverter",
+  "author": "Chunliang Lyu",
+  "url": "https://github.com/cllu/MediaWiki-CalendarConverter",
+  "description": "Provide parser functions and Scribunto Lua library to convert a date between different calendars.",
+  "version": "1.0",
+  "license-name": "MIT",
+  "type": "other",
+  "manifest_version": 1,
+  "Hooks": {
+    "ParserFirstCallInit": [
+      "CalendarConverterHooks::onParserFirstCallInit"
+    ],
+    "ScribuntoExternalLibraries": [
+      "CalendarConverterHooks::onScribuntoExternalLibraries"
+    ]
+  },
+  "AutoloadClasses": {
+    "Lunar": "LunarSolarConverter.class.php",
+    "Solar": "LunarSolarConverter.class.php",
+    "LunarSolarConverter": "LunarSolarConverter.class.php",
+    "CalendarConverterLua": "CalendarConverterLua.php",
+    "CalendarConverterHooks": "CalendarConverter.hooks.php"
+  },
+  "ExtensionMessagesFiles": {
+    "CalenderConverter": "CalendarConverter.i18n.php"
+  }
+}
